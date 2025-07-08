@@ -3,7 +3,6 @@ Version: 2.2.14
 Date: 2025-07-08
   Changes:
     -  Trading entities can connect to the circuit network and be disabled via signals
-    -  Added 'sell now' and 'buy now' circuit signals for immediate trades
 -------------------------------------------------------------------------------
 -------------------
 Version: 2.2.12

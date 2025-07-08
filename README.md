@@ -27,8 +27,7 @@ Sell and buy items/fluids/energy on the universal black market using trading che
 * Add Transaction logs
 * Add stats Graph / income vs. expenses
 * Add support for factorio base game and space age DLC
-* Trading entities can connect to the circuit network to enable or disable trading and trigger immediate buy/sell actions
-* Immediate trades can be triggered with `signal-market-sell-now` and `signal-market-buy-now`
+* Trading entities can connect to the circuit network to enable or disable trading
 * Support selling items with higher quality for higher price.
   * multiplyer are below:
     * normal -> 1x

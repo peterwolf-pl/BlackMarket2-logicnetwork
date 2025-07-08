@@ -55,8 +55,6 @@ local trader_signals =
                 auto_all = {type="virtual",name="signal-market-auto-all"},
                 auto_sell = {type="virtual",name="signal-market-auto-sell"},
                 auto_buy = {type="virtual",name="signal-market-auto-buy"},
-                sell_now = {type="virtual",name="signal-market-sell-now"},
-                buy_now = {type="virtual",name="signal-market-buy-now"},
         }
 
 --------------------------------------------------------------------------------------
@@ -1675,23 +1673,7 @@ local function listen_trader(trader)
                 listen_signal(trader_signals.auto_buy)
         end
 
-        local force_mem = storage.force_mem[ent.force.name]
-
-        if network.get_signal(trader_signals.sell_now) > 0 and trader.sell_or_buy then
-                local money1 = sell_trader(trader, force_mem)
-                if money1 and money1 ~= 0 then
-                        compute_force_data(force_mem)
-                        update_guis_force(ent.force, false)
-                end
-        end
-
-        if network.get_signal(trader_signals.buy_now) > 0 and not trader.sell_or_buy then
-                local money1 = buy_trader(trader, force_mem)
-                if money1 and money1 ~= 0 then
-                        compute_force_data(force_mem)
-                        update_guis_force(ent.force, false)
-                end
-        end
+       local force_mem = storage.force_mem[ent.force.name]
 
         if trader.editer and changed then update_menu_trader(trader.editer,nil,false) end
 	
