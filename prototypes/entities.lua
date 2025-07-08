@@ -231,11 +231,12 @@ local function add_chests(level)
 	end
 
         local chest_sell = dupli_proto( "container", proto, name_sell )
-        chest_sell.inventory_size = inventory_size
-        chest_sell.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
-        chest_sell.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
+       chest_sell.inventory_size = inventory_size
+       chest_sell.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
+       chest_sell.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
        chest_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
        chest_sell.circuit_enable_disable = true
+       chest_sell.circuit_mode_of_operation = defines.control_behavior.circuit_mode_of_operation.send_contents
 	chest_sell.picture = 
 		{
 			filename = "__BlackMarket2__/graphics/trading-chest-sell.png",
@@ -276,11 +277,12 @@ local function add_chests(level)
 	table.insert(names_pastable,name_buy)
 	--------------------------------------------------------------------------------------
         local chest_buy = dupli_proto( "container", proto, name_buy )
-        chest_buy.inventory_size = inventory_size
-        chest_buy.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
-        chest_buy.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
+       chest_buy.inventory_size = inventory_size
+       chest_buy.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
+       chest_buy.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
        chest_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
        chest_buy.circuit_enable_disable = true
+       chest_buy.circuit_mode_of_operation = defines.control_behavior.circuit_mode_of_operation.send_contents
 	chest_buy.picture = 
 		{
 			filename = "__BlackMarket2__/graphics/trading-chest-buy.png",
