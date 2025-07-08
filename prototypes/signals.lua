@@ -23,14 +23,30 @@ data:extend(
 			subgroup = "virtual-signal-market",
 			order = "y[market]-ab"
 		},
-		{
-			type = "virtual-signal",
-			name = "signal-market-auto-buy",
-			icon = "__BlackMarket2__/graphics/signal-market-auto-buy.png",
-			icon_size = 32,
-			subgroup = "virtual-signal-market",
-			order = "y[market]-ac"
-		},
+                {
+                        type = "virtual-signal",
+                        name = "signal-market-auto-buy",
+                        icon = "__BlackMarket2__/graphics/signal-market-auto-buy.png",
+                        icon_size = 32,
+                        subgroup = "virtual-signal-market",
+                        order = "y[market]-ac"
+                },
+                {
+                        type = "virtual-signal",
+                        name = "signal-market-sell-now",
+                        icon = "__BlackMarket2__/graphics/signal-market-auto-sell.png",
+                        icon_size = 32,
+                        subgroup = "virtual-signal-market",
+                        order = "y[market]-ad"
+                },
+                {
+                        type = "virtual-signal",
+                        name = "signal-market-buy-now",
+                        icon = "__BlackMarket2__/graphics/signal-market-auto-buy.png",
+                        icon_size = 32,
+                        subgroup = "virtual-signal-market",
+                        order = "y[market]-ae"
+                },
 
 
 	}

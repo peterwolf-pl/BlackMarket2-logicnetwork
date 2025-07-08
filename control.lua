@@ -51,11 +51,13 @@ local function get_quality_multiplier(level) -- level is 1 indexed (1 = normal, 
 end
 
 local trader_signals =
-	{
-		auto_all = {type="virtual",name="signal-market-auto-all"},
-		auto_sell = {type="virtual",name="signal-market-auto-sell"},
-		auto_buy = {type="virtual",name="signal-market-auto-buy"},
-	}
+        {
+                auto_all = {type="virtual",name="signal-market-auto-all"},
+                auto_sell = {type="virtual",name="signal-market-auto-sell"},
+                auto_buy = {type="virtual",name="signal-market-auto-buy"},
+                sell_now = {type="virtual",name="signal-market-sell-now"},
+                buy_now = {type="virtual",name="signal-market-buy-now"},
+        }
 
 --------------------------------------------------------------------------------------
 function format_money( n )
@@ -1653,27 +1655,45 @@ local function listen_trader(trader)
 		network = ent.get_circuit_network(defines.wire_type.green)
 	end
 	
-	if network == nil then return(false) end
-	
-	local function listen_signal(signal)
-		local val = network.get_signal(signal)
-		-- debug_print( "auto=", val )
-		if val ~= 0 then
-			local auto = (val ~= 1)
-			if auto ~= trader.auto then changed = true end
-			trader.auto = auto
-		end
-	end
-	
-	listen_signal(trader_signals.auto_all)
+        if network == nil then return(false) end
+
+        local function listen_signal(signal)
+                local val = network.get_signal(signal)
+                -- debug_print( "auto=", val )
+                if val ~= 0 then
+                        local auto = (val ~= 1)
+                        if auto ~= trader.auto then changed = true end
+                        trader.auto = auto
+                end
+        end
+
+        listen_signal(trader_signals.auto_all)
 	
 	if trader.sell_or_buy then
 		listen_signal(trader_signals.auto_sell)
-	else
-		listen_signal(trader_signals.auto_buy)
-	end
-	
-	if trader.editer and changed then update_menu_trader(trader.editer,nil,false) end
+        else
+                listen_signal(trader_signals.auto_buy)
+        end
+
+        local force_mem = storage.force_mem[ent.force.name]
+
+        if network.get_signal(trader_signals.sell_now) > 0 and trader.sell_or_buy then
+                local money1 = sell_trader(trader, force_mem)
+                if money1 and money1 ~= 0 then
+                        compute_force_data(force_mem)
+                        update_guis_force(ent.force, false)
+                end
+        end
+
+        if network.get_signal(trader_signals.buy_now) > 0 and not trader.sell_or_buy then
+                local money1 = buy_trader(trader, force_mem)
+                if money1 and money1 ~= 0 then
+                        compute_force_data(force_mem)
+                        update_guis_force(ent.force, false)
+                end
+        end
+
+        if trader.editer and changed then update_menu_trader(trader.editer,nil,false) end
 	
 	return(true)
 end
