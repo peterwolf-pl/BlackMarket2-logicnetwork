@@ -234,7 +234,8 @@ local function add_chests(level)
         chest_sell.inventory_size = inventory_size
         chest_sell.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
         chest_sell.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
-        chest_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
+       chest_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
+       chest_sell.circuit_enable_disable = true
 	chest_sell.picture = 
 		{
 			filename = "__BlackMarket2__/graphics/trading-chest-sell.png",
@@ -278,7 +279,8 @@ local function add_chests(level)
         chest_buy.inventory_size = inventory_size
         chest_buy.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
         chest_buy.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
-        chest_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
+       chest_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
+       chest_buy.circuit_enable_disable = true
 	chest_buy.picture = 
 		{
 			filename = "__BlackMarket2__/graphics/trading-chest-buy.png",
@@ -361,7 +363,8 @@ local function add_tanks(level)
         tank_sell.fluid_box.volume = tank_max
         tank_sell.circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points
         tank_sell.circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites
-        tank_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
+       tank_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
+       tank_sell.circuit_enable_disable = true
 
 	data:extend(
 		{
@@ -398,7 +401,8 @@ local function add_tanks(level)
         tank_buy.fluid_box.volume = tank_max
         tank_buy.circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points
         tank_buy.circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites
-        tank_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
+       tank_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
+       tank_buy.circuit_enable_disable = true
 
 	data:extend(
 		{
@@ -481,6 +485,7 @@ local function add_accus(level)
         accu_sell.circuit_wire_connection_points = circuit_connector_definitions["accumulator"].points
         accu_sell.circuit_connector_sprites = circuit_connector_definitions["accumulator"].sprites
         accu_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
+        accu_sell.circuit_enable_disable = true
 	accu_sell.chargable_graphics.picture.filename = "__BlackMarket2__/graphics/trading-accumulator-sell.png"
 	accu_sell.chargable_graphics.charge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-sell-charge.png"
 	accu_sell.chargable_graphics.discharge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-sell-discharge.png"
@@ -522,6 +527,7 @@ local function add_accus(level)
         accu_buy.circuit_wire_connection_points = circuit_connector_definitions["accumulator"].points
         accu_buy.circuit_connector_sprites = circuit_connector_definitions["accumulator"].sprites
         accu_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
+        accu_buy.circuit_enable_disable = true
 	accu_buy.chargable_graphics.picture.filename = "__BlackMarket2__/graphics/trading-accumulator-buy.png"
 	accu_buy.chargable_graphics.charge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-buy-charge.png"
 	accu_buy.chargable_graphics.discharge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-buy-discharge.png"
