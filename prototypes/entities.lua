@@ -235,8 +235,6 @@ local function add_chests(level)
        chest_sell.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
        chest_sell.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
        chest_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
-       chest_sell.circuit_enable_disable = true
-       chest_sell.circuit_mode_of_operation = defines.control_behavior.circuit_mode_of_operation.send_contents
 	chest_sell.picture = 
 		{
 			filename = "__BlackMarket2__/graphics/trading-chest-sell.png",
@@ -281,8 +279,6 @@ local function add_chests(level)
        chest_buy.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
        chest_buy.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
        chest_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
-       chest_buy.circuit_enable_disable = true
-       chest_buy.circuit_mode_of_operation = defines.control_behavior.circuit_mode_of_operation.send_contents
 	chest_buy.picture = 
 		{
 			filename = "__BlackMarket2__/graphics/trading-chest-buy.png",
@@ -363,10 +359,9 @@ local function add_tanks(level)
         local tank_sell = dupli_proto( "storage-tank", "storage-tank", name_sell )
         tank_sell.pictures.picture.sheets[1].filename = "__BlackMarket2__/graphics/trading-tank-sell.png"
         tank_sell.fluid_box.volume = tank_max
-        tank_sell.circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points
-        tank_sell.circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites
+       tank_sell.circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points
+       tank_sell.circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites
        tank_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
-       tank_sell.circuit_enable_disable = true
 
 	data:extend(
 		{
@@ -401,10 +396,9 @@ local function add_tanks(level)
         local tank_buy = dupli_proto( "storage-tank", "storage-tank", name_buy )
         tank_buy.pictures.picture.sheets[1].filename = "__BlackMarket2__/graphics/trading-tank-buy.png"
         tank_buy.fluid_box.volume = tank_max
-        tank_buy.circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points
-        tank_buy.circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites
+       tank_buy.circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points
+       tank_buy.circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites
        tank_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
-       tank_buy.circuit_enable_disable = true
 
 	data:extend(
 		{
@@ -487,7 +481,6 @@ local function add_accus(level)
         accu_sell.circuit_wire_connection_points = circuit_connector_definitions["accumulator"].points
         accu_sell.circuit_connector_sprites = circuit_connector_definitions["accumulator"].sprites
         accu_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
-        accu_sell.circuit_enable_disable = true
 	accu_sell.chargable_graphics.picture.filename = "__BlackMarket2__/graphics/trading-accumulator-sell.png"
 	accu_sell.chargable_graphics.charge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-sell-charge.png"
 	accu_sell.chargable_graphics.discharge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-sell-discharge.png"
@@ -529,7 +522,6 @@ local function add_accus(level)
         accu_buy.circuit_wire_connection_points = circuit_connector_definitions["accumulator"].points
         accu_buy.circuit_connector_sprites = circuit_connector_definitions["accumulator"].sprites
         accu_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
-        accu_buy.circuit_enable_disable = true
 	accu_buy.chargable_graphics.picture.filename = "__BlackMarket2__/graphics/trading-accumulator-buy.png"
 	accu_buy.chargable_graphics.charge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-buy-charge.png"
 	accu_buy.chargable_graphics.discharge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-buy-discharge.png"
