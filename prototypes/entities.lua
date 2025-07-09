@@ -590,7 +590,7 @@ add_accus(4)
 
 --------------------------------------------------------------------------------------
 for _, name in pairs(names_chests) do
-	data.raw["container"][name].additional_pastable_entities = names_pastable
+       data.raw["logistic-container"][name].additional_pastable_entities = names_pastable
 end
 
 for _, name in pairs(names_tanks) do
