@@ -51,11 +51,12 @@ local function get_quality_multiplier(level) -- level is 1 indexed (1 = normal, 
 end
 
 local trader_signals =
-	{
-		auto_all = {type="virtual",name="signal-market-auto-all"},
-		auto_sell = {type="virtual",name="signal-market-auto-sell"},
-		auto_buy = {type="virtual",name="signal-market-auto-buy"},
-	}
+        {
+                auto_all = {type="virtual",name="signal-market-auto-all"},
+                auto_sell = {type="virtual",name="signal-market-auto-sell"},
+                auto_buy = {type="virtual",name="signal-market-auto-buy"},
+                disable = {type="virtual",name="signal-market-disable"},
+        }
 
 --------------------------------------------------------------------------------------
 function format_money( n )
@@ -1266,7 +1267,8 @@ end
 
 --------------------------------------------------------------------------------------
 local function init_trader( trader, level )
-	trader.auto = default_auto -- automatic trading
+       trader.auto = default_auto -- automatic trading
+       trader.disabled = false -- disabled via circuit signal
 	trader.daylight = false -- trades only during daylight (for selling accumulators)
 	trader.n_period=default_n_period
 	trader.period=periods[default_n_period]
@@ -1315,10 +1317,11 @@ end
 
 --------------------------------------------------------------------------------------
 local function copy_trader( trader1, trader2 )
-	trader2.auto = trader1.auto
-	trader2.daylight = trader1.daylight
-	trader2.n_period=trader1.n_period
-	trader2.period=trader1.period
+       trader2.auto = trader1.auto
+       trader2.daylight = trader1.daylight
+       trader2.n_period=trader1.n_period
+       trader2.period=trader1.period
+       trader2.disabled = trader1.disabled
 	
 	if (not trader1.sell_or_buy) and (not trader2.sell_or_buy) and trader1.type == trader2.type then
 		trader2.orders = {}
@@ -1419,9 +1422,11 @@ end
 
 --------------------------------------------------------------------------------------
 local function sell_trader(trader,force_mem,tax_rate)
-	if storage.prices_computed then return(nil) end
-	
-	if trader.entity == nil or not trader.entity.valid then return(nil) end
+        if storage.prices_computed then return(nil) end
+
+        if trader.entity == nil or not trader.entity.valid then return(nil) end
+
+       if trader.disabled then return(0) end
 	
 	if tax_rate == nil then tax_rate = storage.tax_rates[trader.period] end
 	if tax_enabled == false then tax_rate = 0 end
@@ -1519,9 +1524,11 @@ end
 
 --------------------------------------------------------------------------------------
 local function buy_trader(trader,force_mem,tax_rate)
-	if storage.prices_computed then return(nil) end
-	
-	if trader.entity == nil or not trader.entity.valid then return(nil) end
+        if storage.prices_computed then return(nil) end
+
+        if trader.entity == nil or not trader.entity.valid then return(nil) end
+
+       if trader.disabled then return(0) end
 	
 	if tax_rate == nil then	tax_rate = storage.tax_rates[trader.period] end
 	if tax_enabled == false then tax_rate = 0 end
@@ -1653,27 +1660,38 @@ local function listen_trader(trader)
 		network = ent.get_circuit_network(defines.wire_type.green)
 	end
 	
-	if network == nil then return(false) end
+       if network == nil then
+               trader.disabled = false
+               return(false)
+       end
+
+        local function listen_signal(signal)
+                local val = network.get_signal(signal)
+                -- debug_print( "auto=", val )
+                if val ~= 0 then
+                        local auto = (val ~= 1)
+                        if auto ~= trader.auto then changed = true end
+                        trader.auto = auto
+                end
+        end
+
+        listen_signal(trader_signals.auto_all)
 	
-	local function listen_signal(signal)
-		local val = network.get_signal(signal)
-		-- debug_print( "auto=", val )
-		if val ~= 0 then
-			local auto = (val ~= 1)
-			if auto ~= trader.auto then changed = true end
-			trader.auto = auto
-		end
-	end
-	
-	listen_signal(trader_signals.auto_all)
-	
-	if trader.sell_or_buy then
-		listen_signal(trader_signals.auto_sell)
-	else
-		listen_signal(trader_signals.auto_buy)
-	end
-	
-	if trader.editer and changed then update_menu_trader(trader.editer,nil,false) end
+       if trader.sell_or_buy then
+               listen_signal(trader_signals.auto_sell)
+       else
+               listen_signal(trader_signals.auto_buy)
+       end
+
+       local disable = network.get_signal(trader_signals.disable) ~= 0
+       if disable ~= trader.disabled then
+               trader.disabled = disable
+               changed = true
+       end
+
+       local force_mem = storage.force_mem[ent.force.name]
+
+       if trader.editer and changed then update_menu_trader(trader.editer,nil,false) end
 	
 	return(true)
 end
@@ -2361,7 +2379,7 @@ local function on_tick(event)
 					local trader = force_mem.traders_sell[i]
 					if storage.hour % trader.period == 0 then
 						trader.hour_period = storage.hour
-						if trader.auto and not force_mem.pause then
+                                               if trader.auto and not trader.disabled and not force_mem.pause then
 							local ent = trader.entity
 							-- if not(trader.daylight and trader.type == trader_type.energy and ent.surface.darkness > 0.5) then
 								local money1 = sell_trader(trader,force_mem)
@@ -2394,7 +2412,7 @@ local function on_tick(event)
 					local trader = force_mem.traders_buy[i]
 					if storage.hour % trader.period == 0 then
 						trader.hour_period = storage.hour
-						if trader.auto and not force_mem.pause then
+                                               if trader.auto and not trader.disabled and not force_mem.pause then
 							local money1 = buy_trader(trader,force_mem)
 							if money1 == nil then
 								table.remove(force_mem.traders_buy,i)
@@ -2421,7 +2439,7 @@ local function on_tick(event)
 				
 				for i=#force_mem.traders_sell,1,-1 do
 					local trader = force_mem.traders_sell[i]
-					if trader.auto and (not force_mem.pause) and storage.hour % trader.period == 0 then
+                                        if trader.auto and (not trader.disabled) and (not force_mem.pause) and storage.hour % trader.period == 0 then
 						compute_trader_data(trader)
 						trader.money_period = trader.money_tot - trader.money_tot_start_period
 						-- debug_print(trader.money_tot_start_period, " -> ", trader.money_tot, " = ", trader.money_period)
@@ -2431,7 +2449,7 @@ local function on_tick(event)
 				
 				for i=#force_mem.traders_buy,1,-1 do
 					local trader = force_mem.traders_buy[i]
-					if trader.auto and (not force_mem.pause) and storage.hour % trader.period == 0 then
+                                        if trader.auto and (not trader.disabled) and (not force_mem.pause) and storage.hour % trader.period == 0 then
 						compute_trader_data(trader)
 						trader.money_period = trader.money_tot - trader.money_tot_start_period
 						-- debug_print(trader.money_tot_start_period, " -> ", trader.money_tot, " = ", trader.money_period)

@@ -27,6 +27,7 @@ Sell and buy items/fluids/energy on the universal black market using trading che
 * Add Transaction logs
 * Add stats Graph / income vs. expenses
 * Add support for factorio base game and space age DLC
+* Trading entities can connect to the circuit network to read contents and be enabled or disabled via signals
 * Support selling items with higher quality for higher price.
   * multiplyer are below:
     * normal -> 1x
@@ -53,4 +54,5 @@ Sell and buy items/fluids/energy on the universal black market using trading che
 * email: skghori03@gmail.com
 
 [![Flattr this git repo](http://api.flattr.com/button/flattr*badge*large.png)](https://flattr.com/submit/auto?user_id=djmango&url=https://github.com/djmango/BlackMarket2&title=BlackMarket2&language=&tags=github&category=software) 
+
 
