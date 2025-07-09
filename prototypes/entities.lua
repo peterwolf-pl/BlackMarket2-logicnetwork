@@ -230,8 +230,9 @@ local function add_chests(level)
 		enabled = false
 	end
 
-       -- use a logistic container so robots can interact with traders
-       local chest_sell = dupli_proto( "logistic-container", "logistic-chest-passive-provider", name_sell )
+       -- duplicate a basic chest and convert it into a logistic container so robots can interact
+       local chest_sell = dupli_proto( "container", proto, name_sell )
+       chest_sell.type = "logistic-container"
        chest_sell.inventory_size = inventory_size
        chest_sell.logistic_mode = "passive-provider"
        chest_sell.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
@@ -277,7 +278,8 @@ local function add_chests(level)
 	table.insert(names_chests,name_buy)
 	table.insert(names_pastable,name_buy)
 	--------------------------------------------------------------------------------------
-       local chest_buy = dupli_proto( "logistic-container", "logistic-chest-requester", name_buy )
+       local chest_buy = dupli_proto( "container", proto, name_buy )
+       chest_buy.type = "logistic-container"
        chest_buy.inventory_size = inventory_size
        chest_buy.logistic_mode = "requester"
        chest_buy.logistic_slots_count = 12
