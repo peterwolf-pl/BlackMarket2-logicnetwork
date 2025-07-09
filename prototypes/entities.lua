@@ -230,8 +230,10 @@ local function add_chests(level)
 		enabled = false
 	end
 
-        local chest_sell = dupli_proto( "container", proto, name_sell )
+       -- use a logistic container so robots can interact with traders
+       local chest_sell = dupli_proto( "logistic-container", "logistic-chest-passive-provider", name_sell )
        chest_sell.inventory_size = inventory_size
+       chest_sell.logistic_mode = "passive-provider"
        chest_sell.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
        chest_sell.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
        chest_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
@@ -275,8 +277,10 @@ local function add_chests(level)
 	table.insert(names_chests,name_buy)
 	table.insert(names_pastable,name_buy)
 	--------------------------------------------------------------------------------------
-        local chest_buy = dupli_proto( "container", proto, name_buy )
+       local chest_buy = dupli_proto( "logistic-container", "logistic-chest-requester", name_buy )
        chest_buy.inventory_size = inventory_size
+       chest_buy.logistic_mode = "requester"
+       chest_buy.logistic_slots_count = 12
        chest_buy.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
        chest_buy.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
        chest_buy.circuit_wire_max_distance = default_circuit_wire_max_distance

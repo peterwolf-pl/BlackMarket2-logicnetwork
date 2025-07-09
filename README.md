@@ -28,6 +28,7 @@ Sell and buy items/fluids/energy on the universal black market using trading che
 * Add stats Graph / income vs. expenses
 * Add support for factorio base game and space age DLC
 * Trading entities can connect to the circuit network to read contents and be enabled or disabled via signals
+* Trading chests function as logistic containers so robots can move items in or out
 * Support selling items with higher quality for higher price.
   * multiplyer are below:
     * normal -> 1x
