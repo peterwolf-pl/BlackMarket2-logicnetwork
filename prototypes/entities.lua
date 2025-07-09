@@ -230,8 +230,15 @@ local function add_chests(level)
 		enabled = false
 	end
 
-	local chest_sell = dupli_proto( "container", proto, name_sell )
-	chest_sell.inventory_size = inventory_size
+       -- duplicate a basic chest and convert it into a logistic container so robots can interact
+       local chest_sell = dupli_proto( "container", proto, name_sell )
+       chest_sell.type = "logistic-container"
+       chest_sell.inventory_size = inventory_size
+       chest_sell.logistic_mode = "passive-provider"
+       chest_sell.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
+       chest_sell.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
+       chest_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
+       chest_sell.circuit_enable_disable = true
 	chest_sell.picture = 
 		{
 			filename = "__BlackMarket2__/graphics/trading-chest-sell.png",
@@ -271,8 +278,15 @@ local function add_chests(level)
 	table.insert(names_chests,name_buy)
 	table.insert(names_pastable,name_buy)
 	--------------------------------------------------------------------------------------
-	local chest_buy = dupli_proto( "container", proto, name_buy )
-	chest_buy.inventory_size = inventory_size
+       local chest_buy = dupli_proto( "container", proto, name_buy )
+       chest_buy.type = "logistic-container"
+       chest_buy.inventory_size = inventory_size
+       chest_buy.logistic_mode = "requester"
+       chest_buy.logistic_slots_count = 12
+       chest_buy.circuit_wire_connection_points = circuit_connector_definitions["chest"].points
+       chest_buy.circuit_connector_sprites = circuit_connector_definitions["chest"].sprites
+       chest_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
+       chest_buy.circuit_enable_disable = true
 	chest_buy.picture = 
 		{
 			filename = "__BlackMarket2__/graphics/trading-chest-buy.png",
@@ -350,9 +364,13 @@ local function add_tanks(level)
 	if level == 3 then tank_max = 200000 end
 	if level == 4 then tank_max = 400000 end
 	--------------------------------------------------------------------------------------
-	local tank_sell = dupli_proto( "storage-tank", "storage-tank", name_sell )
-	tank_sell.pictures.picture.sheets[1].filename = "__BlackMarket2__/graphics/trading-tank-sell.png"
-	tank_sell.fluid_box.volume = tank_max
+        local tank_sell = dupli_proto( "storage-tank", "storage-tank", name_sell )
+        tank_sell.pictures.picture.sheets[1].filename = "__BlackMarket2__/graphics/trading-tank-sell.png"
+        tank_sell.fluid_box.volume = tank_max
+       tank_sell.circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points
+       tank_sell.circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites
+       tank_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
+       tank_sell.circuit_enable_disable = true
 
 	data:extend(
 		{
@@ -384,9 +402,13 @@ local function add_tanks(level)
 	)
 
 	--------------------------------------------------------------------------------------
-	local tank_buy = dupli_proto( "storage-tank", "storage-tank", name_buy )
-	tank_buy.pictures.picture.sheets[1].filename = "__BlackMarket2__/graphics/trading-tank-buy.png"
-	tank_buy.fluid_box.volume = tank_max
+        local tank_buy = dupli_proto( "storage-tank", "storage-tank", name_buy )
+        tank_buy.pictures.picture.sheets[1].filename = "__BlackMarket2__/graphics/trading-tank-buy.png"
+        tank_buy.fluid_box.volume = tank_max
+       tank_buy.circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points
+       tank_buy.circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites
+       tank_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
+       tank_buy.circuit_enable_disable = true
 
 	data:extend(
 		{
@@ -462,10 +484,14 @@ local function add_accus(level)
 	if level == 3 then flow_limit = 10 end
 	if level == 4 then flow_limit = 25 end
 	--------------------------------------------------------------------------------------
-	local accu_sell = dupli_proto( "accumulator", "accumulator", name_sell )
-	accu_sell.energy_source.buffer_capacity = accu_max .. "MJ"
-	accu_sell.energy_source.input_flow_limit = flow_limit .. "MW"
-	accu_sell.energy_source.output_flow_limit = "0MW"
+        local accu_sell = dupli_proto( "accumulator", "accumulator", name_sell )
+        accu_sell.energy_source.buffer_capacity = accu_max .. "MJ"
+        accu_sell.energy_source.input_flow_limit = flow_limit .. "MW"
+        accu_sell.energy_source.output_flow_limit = "0MW"
+        accu_sell.circuit_wire_connection_points = circuit_connector_definitions["accumulator"].points
+        accu_sell.circuit_connector_sprites = circuit_connector_definitions["accumulator"].sprites
+        accu_sell.circuit_wire_max_distance = default_circuit_wire_max_distance
+        accu_sell.circuit_enable_disable = true
 	accu_sell.chargable_graphics.picture.filename = "__BlackMarket2__/graphics/trading-accumulator-sell.png"
 	accu_sell.chargable_graphics.charge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-sell-charge.png"
 	accu_sell.chargable_graphics.discharge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-sell-discharge.png"
@@ -500,10 +526,14 @@ local function add_accus(level)
 	)
 
 	--------------------------------------------------------------------------------------
-	local accu_buy = dupli_proto( "accumulator", "accumulator", name_buy )
-	accu_buy.energy_source.buffer_capacity = accu_max .. "MJ"
-	accu_buy.energy_source.input_flow_limit = "0MW"
-	accu_buy.energy_source.output_flow_limit = flow_limit .. "MW"
+        local accu_buy = dupli_proto( "accumulator", "accumulator", name_buy )
+        accu_buy.energy_source.buffer_capacity = accu_max .. "MJ"
+        accu_buy.energy_source.input_flow_limit = "0MW"
+        accu_buy.energy_source.output_flow_limit = flow_limit .. "MW"
+        accu_buy.circuit_wire_connection_points = circuit_connector_definitions["accumulator"].points
+        accu_buy.circuit_connector_sprites = circuit_connector_definitions["accumulator"].sprites
+        accu_buy.circuit_wire_max_distance = default_circuit_wire_max_distance
+        accu_buy.circuit_enable_disable = true
 	accu_buy.chargable_graphics.picture.filename = "__BlackMarket2__/graphics/trading-accumulator-buy.png"
 	accu_buy.chargable_graphics.charge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-buy-charge.png"
 	accu_buy.chargable_graphics.discharge_animation.filename = "__BlackMarket2__/graphics/trading-accumulator-buy-discharge.png"
@@ -560,7 +590,7 @@ add_accus(4)
 
 --------------------------------------------------------------------------------------
 for _, name in pairs(names_chests) do
-	data.raw["container"][name].additional_pastable_entities = names_pastable
+       data.raw["logistic-container"][name].additional_pastable_entities = names_pastable
 end
 
 for _, name in pairs(names_tanks) do

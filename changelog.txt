@@ -1,4 +1,18 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.2.16
+Date: 2025-07-09
+  Changes:
+    -  Trading chests are logistic containers so robots can insert or remove items
+    -  Trading entities respond to a circuit signal to disable trading
+    -  Entities expose their inventories on the circuit network
+-------------------------------------------------------------------------------
+-------------------
+Version: 2.2.14
+Date: 2025-07-08
+  Changes:
+    -  Trading entities can connect to the circuit network and be disabled via signals
+-------------------------------------------------------------------------------
+-------------------
 Version: 2.2.12
 Date: 2024-11-09
   Changes:
